@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/tools">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/pic1pic"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/test"
+        fresco:placeholderImage="@drawable/home_default_2"/>
+
+    <TextView
+        android:id="@+id/pic1name"
+        android:layout_width="209dp"
+        android:layout_height="85dp"
+        android:layout_alignTop="@+id/pic1pic"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_toEndOf="@+id/pic1pic"
+        android:layout_toRightOf="@+id/pic1pic"
+        android:textColor="#4a4a4a"
+        android:textSize="16dp"
+        android:text="费萨拉巴德位于巴基斯坦东北部，总面积5,856平方公里。费萨拉巴德基斯坦东北部，总面积5,856平方公里费费巴德基斯巴德基斯哪坦…" />
+
+    <TextView
+        android:id="@+id/pic1Date"
+        android:layout_width="120dp"
+        android:layout_height="17dp"
+        android:layout_alignBottom="@+id/pic1pic"
+        android:layout_alignLeft="@+id/pic1name"
+        android:layout_alignStart="@+id/pic1name"
+        android:textColor="#9b9b9b"
+        android:textSize="14dp"
+        android:text="每日一图 · 02-02" />
+</RelativeLayout>
