@@ -42,4 +42,11 @@
         android:textColor="#9b9b9b"
         android:textSize="14dp"
         android:text="每日一图 · 02-02" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/pic1pic" />
 </RelativeLayout>

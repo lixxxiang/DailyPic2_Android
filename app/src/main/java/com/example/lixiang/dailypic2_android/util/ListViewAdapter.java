@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.example.lixiang.dailypic2_android.R;
 import com.example.lixiang.dailypic2_android.model.entity.homePage;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -20,14 +22,11 @@ import java.util.List;
  */
 
 public class ListViewAdapter extends BaseAdapter {
-    public static final int TYPE_PIC_1 = 0;
-    public static final int TYPE_PIC_2 = 1;
-    public static final int TYPE_VIDEO = 2;
+    private static final int TYPE_PIC_1 = 0;
+    private static final int TYPE_PIC_2 = 1;
+    private static final int TYPE_VIDEO = 2;
 
     private Context context;
-    private List<homePage.DataBean.MixedContentListBean> pic1;
-    private List<homePage.DataBean.MixedContentListBean> pic2;
-    private List<homePage.DataBean.MixedContentListBean> video;
     private List<homePage.DataBean.MixedContentListBean> content;
 
 
@@ -54,14 +53,13 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        System.out.println(content.get(position).getType() + content.get(position).getStyle());
-        if(content.get(position).getStyle() != null){
+        if (content.get(position).getStyle() != null) {
             if (content.get(position).getType().equals("1") && content.get(position).getStyle().equals("1")) {
                 return TYPE_PIC_1;
             } else if (content.get(position).getType().equals("1") && content.get(position).getStyle().equals("2")) {
                 return TYPE_PIC_2;
             }
-        }else
+        } else
             return TYPE_VIDEO;
         return 0;
     }
@@ -90,12 +88,12 @@ public class ListViewAdapter extends BaseAdapter {
                 } else {
                     pic1Holder = (Pic1Holder) convertView.getTag();
                 }
-
-                pic1Holder.pic1Pic.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
-                pic1Holder.pic1Name.setText(content.get(position).getContentName());
-                pic1Holder.pic1Date.setText(content.get(position).getContentDate());
-
-
+                if (content.get(position).getThumbnail1Path() != null)
+                    pic1Holder.pic1Pic.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
+                if (content.get(position).getContentName() != null)
+                    pic1Holder.pic1Name.setText(content.get(position).getContentName());
+                if (content.get(position).getContentDate() != null)
+                    pic1Holder.pic1Date.setText(content.get(position).getContentDate());
                 break;
             case TYPE_PIC_2:
                 if (convertView == null) {
@@ -103,24 +101,38 @@ public class ListViewAdapter extends BaseAdapter {
                     pic2Holder = new Pic2Holder();
                     pic2Holder.pic2Name = convertView.findViewById(R.id.pic2name);
                     pic2Holder.pic2Date = convertView.findViewById(R.id.pic2date);
+                    pic2Holder.pic2Pic1 = convertView.findViewById(R.id.pic1);
+                    pic2Holder.pic2Pic2 = convertView.findViewById(R.id.pic2);
+                    pic2Holder.pic2Pic3 = convertView.findViewById(R.id.pic3);
                     convertView.setTag(pic2Holder);
                 } else {
                     pic2Holder = (Pic2Holder) convertView.getTag();
                 }
-                pic2Holder.pic2Name.setText(content.get(position).getContentName());
-                pic2Holder.pic2Date.setText(content.get(position).getContentDate());
+                if (content.get(position).getContentName() != null)
+                    pic2Holder.pic2Name.setText(content.get(position).getContentName());
+                if (content.get(position).getContentDate() != null)
+                    pic2Holder.pic2Date.setText(content.get(position).getContentDate());
+                if (content.get(position).getThumbnail1Path() != null)
+                    pic2Holder.pic2Pic1.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
+                if (content.get(position).getThumbnail2Path() != null)
+                    pic2Holder.pic2Pic2.setImageURI(Uri.parse(content.get(position).getThumbnail2Path()));
+                if (content.get(position).getThumbnail3Path() != null)
+                    pic2Holder.pic2Pic3.setImageURI(Uri.parse(content.get(position).getThumbnail3Path()));
                 break;
             case TYPE_VIDEO:
                 if (convertView == null) {
                     convertView = LayoutInflater.from(context).inflate(R.layout.video_listview, null);
                     videoHolder = new VideoHolder();
-
                     videoHolder.videoName = convertView.findViewById(R.id.videoname);
+                    videoHolder.videoPic = convertView.findViewById(R.id.videopic);
                     convertView.setTag(videoHolder);
                 } else {
                     videoHolder = (VideoHolder) convertView.getTag();
                 }
-                videoHolder.videoName.setText(content.get(position).getContentName());
+                if (content.get(position).getContentName() != null)
+                    videoHolder.videoName.setText(content.get(position).getContentName());
+                if (content.get(position).getThumbnail1Path() != null)
+                    videoHolder.videoPic.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
         }
         return convertView;
     }

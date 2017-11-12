@@ -23,7 +23,7 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/videopic"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="169dp"
         android:layout_below="@+id/videoname"
         android:layout_marginEnd="17dp"
@@ -46,4 +46,11 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="10dp"
         android:text="脉动地球 · 02-02" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/videodate" />
 </RelativeLayout>
