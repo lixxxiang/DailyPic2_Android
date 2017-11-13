@@ -45,12 +45,18 @@ class MainActivity : AppCompatActivity() {
         main_viewpager.setAdapter(viewPagerAdapter)
 
 
-        navigation!!.setOnNavigationItemSelectedListener { item ->
+        navigation!!.setOnNavigationItemSelectedListener {
+            item ->
             val itemId = item.itemId
             when (itemId) {
                 R.id.navigation_home -> main_viewpager.setCurrentItem(0)
-                R.id.btm_nav_item2 -> main_viewpager.setCurrentItem(1)
+                R.id.navigation_pic -> main_viewpager.setCurrentItem(1)
+                R.id.navigation_video -> main_viewpager.setCurrentItem(2)
+                R.id.navigation_me -> main_viewpager.setCurrentItem(3)
 
+                else -> {
+                    println("")
+                }
             }
         }
         main_viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
