@@ -1,23 +1,27 @@
 package com.example.lixiang.dailypic2_android.view.fragment
 
-import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 
 import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.di.components.DaggerHomeComponent
 import com.example.lixiang.dailypic2_android.di.modules.HomeModule
+import com.example.lixiang.dailypic2_android.model.entity.DailyPicDetail
 import com.example.lixiang.dailypic2_android.model.entity.homePage
 import com.example.lixiang.dailypic2_android.presenter.HomeContract
 import com.example.lixiang.dailypic2_android.presenter.HomePresenter
 import com.example.lixiang.dailypic2_android.util.GlideImageLoader
 import com.example.lixiang.dailypic2_android.util.ListViewAdapter
+import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.Serializable
 import javax.inject.Inject
 
 /**
@@ -28,9 +32,18 @@ import javax.inject.Inject
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment(), HomeContract.View{
+class HomeFragment : Fragment(), HomeContract.View {
+    override fun toPicDetailPage(detailContent: DailyPicDetail.DataBean?) {
+        val intent = Intent(activity, PicDetailActivity::class.java)
+        intent.putExtra("detailContent", detailContent)
+        startActivity(intent)
+
+    }
+
+    var data: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
     override fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>) {
         println("content" + content)
+        data = content
         val adapter = ListViewAdapter(activity.applicationContext, content)
         listview.adapter = adapter
     }
@@ -38,7 +51,7 @@ class HomeFragment : Fragment(), HomeContract.View{
     val images = mutableListOf<String>()
     val titles = mutableListOf<String>()
 
-    @Inject lateinit var presenter:HomePresenter
+    @Inject lateinit var presenter: HomePresenter
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -60,8 +73,6 @@ class HomeFragment : Fragment(), HomeContract.View{
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-
-
         super.onActivityCreated(savedInstanceState)
         images.add("http://202.111.178.10:28085/upload/image/201709111935000285305.jpg")
         images.add("http://202.111.178.10:28085/upload/image/201709111935000285305.jpg")
@@ -86,10 +97,14 @@ class HomeFragment : Fragment(), HomeContract.View{
                 .inject(this)
 
 
+        listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            println("parent" + data.get(position).contentId)
+            presenter.getDailyPicDetail(data.get(position).contentId)
+        }
         /**
          * test param 10,1
          */
-        presenter.getHomePageData("10","1")
+        presenter.getHomePageData("10", "1")
     }
 
     // TODO: Rename method, update argument and hook method into UI event

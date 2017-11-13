@@ -6,8 +6,10 @@ import com.example.lixiang.dailypic2_android.R
 import android.support.design.widget.BottomNavigationView
 import com.example.lixiang.dailypic2_android.util.BottomNavigationViewHelper
 import android.support.v4.view.ViewPager
+import android.widget.AdapterView
 import com.example.lixiang.dailypic2_android.util.ViewPagerAdapter
 import butterknife.BindView
+import butterknife.OnItemClick
 import com.example.lixiang.dailypic2_android.view.fragment.HomeFragment
 import com.example.lixiang.dailypic2_android.view.fragment.MeFragment
 import com.example.lixiang.dailypic2_android.view.fragment.PicFragment
@@ -43,6 +45,14 @@ class MainActivity : AppCompatActivity() {
         main_viewpager.setAdapter(viewPagerAdapter)
 
 
+        navigation!!.setOnNavigationItemSelectedListener { item ->
+            val itemId = item.itemId
+            when (itemId) {
+                R.id.navigation_home -> main_viewpager.setCurrentItem(0)
+                R.id.btm_nav_item2 -> main_viewpager.setCurrentItem(1)
+
+            }
+        }
         main_viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 

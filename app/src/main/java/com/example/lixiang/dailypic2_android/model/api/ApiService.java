@@ -1,6 +1,7 @@
 package com.example.lixiang.dailypic2_android.model.api;
 
 
+import com.example.lixiang.dailypic2_android.model.entity.DailyPicDetail;
 import com.example.lixiang.dailypic2_android.model.entity.homePage;
 
 import retrofit2.Call;
@@ -17,5 +18,9 @@ public interface ApiService {
     @FormUrlEncoded
     Call<homePage> homePage(@Field("pageSize") String targetSentence,
                                      @Field("pageNum") String targetSentence2);
+
+    @POST("mobile/getDailyPicDetail")
+    @FormUrlEncoded
+    Call<DailyPicDetail> DailyPicDetail(@Field("imageId") String targetSentence);
 
 }

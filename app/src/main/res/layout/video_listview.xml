@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/tools">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
 
     <TextView
         android:id="@+id/videoname"
@@ -33,7 +34,8 @@
         android:layout_marginTop="14dp"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/test"
-        fresco:placeholderImage="@drawable/video_image"/>
+        fresco:placeholderImage="@drawable/video_image"
+        fresco:roundedCornerRadius="5dp"/>
 
     <TextView
         android:id="@+id/videodate"

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fresco="http://schemas.android.com/tools">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
 
     <TextView
         android:id="@+id/pic2name"
@@ -40,16 +41,21 @@
             android:layout_weight="1"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/test"
-            fresco:placeholderImage="@drawable/home_default_2"/>
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/home_default_2"
+            fresco:roundedCornerRadius="5dp"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/pic2"
             android:layout_width="wrap_content"
             android:layout_height="110dp"
             android:layout_weight="1"
-            android:scaleType="centerCrop"
             app:srcCompat="@drawable/test"
-            fresco:placeholderImage="@drawable/home_default_2"/>
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/home_default_2"
+            fresco:roundedCornerRadius="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/pic3"
@@ -58,7 +64,11 @@
             android:layout_weight="1"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/test"
-            fresco:placeholderImage="@drawable/home_default_2"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/home_default_2"
+            fresco:roundedCornerRadius="5dp"/>
     </LinearLayout>
 
     <TextView
