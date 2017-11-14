@@ -45,19 +45,17 @@ class MainActivity : AppCompatActivity() {
         main_viewpager.setAdapter(viewPagerAdapter)
 
 
-        navigation!!.setOnNavigationItemSelectedListener {
-            item ->
-            val itemId = item.itemId
-            when (itemId) {
-                R.id.navigation_home -> main_viewpager.setCurrentItem(0)
-                R.id.navigation_pic -> main_viewpager.setCurrentItem(1)
-                R.id.navigation_video -> main_viewpager.setCurrentItem(2)
-                R.id.navigation_me -> main_viewpager.setCurrentItem(3)
-
-                else -> {
-                    println("")
-                }
+        navigation.setOnNavigationItemSelectedListener { item ->
+//            var itemId = item.itemId
+            var tab = 0
+            when (item.itemId) {
+                R.id.navigation_home -> tab = 0
+                R.id.navigation_pic -> tab = 1
+                R.id.navigation_video -> tab = 2
+                R.id.navigation_me -> tab = 3
             }
+            main_viewpager.setCurrentItem(tab)
+            false
         }
         main_viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -65,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-
+                navigation.menu.getItem(position).setChecked(true)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
