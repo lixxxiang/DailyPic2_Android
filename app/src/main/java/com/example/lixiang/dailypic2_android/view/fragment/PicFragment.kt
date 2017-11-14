@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.lixiang.dailypic2_android.R
+import com.example.lixiang.dailypic2_android.presenter.PicContract
 
 /**
  * A simple [Fragment] subclass.
@@ -18,7 +19,7 @@ import com.example.lixiang.dailypic2_android.R
  * Use the [PicFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PicFragment : Fragment() {
+class PicFragment : Fragment(), PicContract.View {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
