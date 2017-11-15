@@ -13,15 +13,16 @@ import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.di.components.DaggerHomeComponent
 import com.example.lixiang.dailypic2_android.di.modules.HomeModule
 import com.example.lixiang.dailypic2_android.model.entity.DailyPicDetail
+import com.example.lixiang.dailypic2_android.model.entity.PlanetEarthDetail
 import com.example.lixiang.dailypic2_android.model.entity.homePage
 import com.example.lixiang.dailypic2_android.presenter.HomeContract
 import com.example.lixiang.dailypic2_android.presenter.HomePresenter
 import com.example.lixiang.dailypic2_android.util.GlideImageLoader
-import com.example.lixiang.dailypic2_android.util.ListViewAdapter
+import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
+import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.io.Serializable
 import javax.inject.Inject
 
 /**
@@ -33,18 +34,24 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment(), HomeContract.View {
-    override fun toPicDetailPage(detailContent: DailyPicDetail.DataBean?) {
+    override fun toVideoDetailPage(videoDetailContent: PlanetEarthDetail.DataBean?) {
+        val intent = Intent(activity, VideoDetailActivity::class.java)
+        intent.putExtra("VideoDetailContent", videoDetailContent)
+        startActivity(intent)
+    }
+
+    override fun toPicDetailPage(picDetailContent: DailyPicDetail.DataBean?) {
         val intent = Intent(activity, PicDetailActivity::class.java)
-        intent.putExtra("detailContent", detailContent)
+        intent.putExtra("picDetailContent", picDetailContent)
         startActivity(intent)
 
     }
 
     var data: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
     override fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>) {
-        println("content" + content)
+//        println("content" + content)
         data = content
-        val adapter = ListViewAdapter(activity.applicationContext, content)
+        val adapter = HomeListViewAdapter(activity.applicationContext, content)
         listview.adapter = adapter
     }
 
@@ -98,8 +105,10 @@ class HomeFragment : Fragment(), HomeContract.View {
 
 
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            println("parent" + data.get(position).contentId)
-            presenter.getDailyPicDetail(data.get(position).contentId)
+//            println("parent" + data.get(position).contentId)
+            if (data.get(position).type == "1")
+                presenter.getDailyPicDetail(data.get(position).contentId)
+            presenter.getVideoPicDetail(data.get(position).contentId)
         }
         /**
          * test param 10,1

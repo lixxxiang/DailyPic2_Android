@@ -11,26 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lixiang.dailypic2_android.R;
-import com.example.lixiang.dailypic2_android.model.entity.homePage;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.lixiang.dailypic2_android.model.entity.DailyPic;
 
 import java.util.List;
 
 /**
- * Created by lixiang on 2017/11/8.
+ * Created by lixiang on 2017/11/15.
  */
 
-public class ListViewAdapter extends BaseAdapter {
+public class PicListViewAdapter extends BaseAdapter {
     private static final int TYPE_PIC_1 = 0;
     private static final int TYPE_PIC_2 = 1;
-    private static final int TYPE_VIDEO = 2;
 
     private Context context;
-    private List<homePage.DataBean.MixedContentListBean> content;
+    private List<DailyPic.DataBean.SjDailyPicDtoListBean> content;
 
 
-    public ListViewAdapter(Context context, List<homePage.DataBean.MixedContentListBean> content) {
+    public PicListViewAdapter(Context context, List<DailyPic.DataBean.SjDailyPicDtoListBean> content) {
         super();
         this.context = context;
         this.content = content;
@@ -54,19 +51,18 @@ public class ListViewAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         if (content.get(position).getStyle() != null) {
-            if (content.get(position).getType().equals("1") && content.get(position).getStyle().equals("1")) {
+            if (content.get(position).getStyle().equals("1")) {
                 return TYPE_PIC_1;
-            } else if (content.get(position).getType().equals("1") && content.get(position).getStyle().equals("2")) {
+            } else if (content.get(position).getStyle().equals("2")) {
                 return TYPE_PIC_2;
             }
-        } else
-            return TYPE_VIDEO;
+        }
         return 0;
     }
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 2;
     }
 
     @SuppressLint("InflateParams")
@@ -74,7 +70,6 @@ public class ListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Pic1Holder pic1Holder;
         Pic2Holder pic2Holder;
-        VideoHolder videoHolder;
 
         switch (getItemViewType(position)) {
             case TYPE_PIC_1:
@@ -88,12 +83,12 @@ public class ListViewAdapter extends BaseAdapter {
                 } else {
                     pic1Holder = (Pic1Holder) convertView.getTag();
                 }
-                if (content.get(position).getThumbnail1Path() != null)
-                    pic1Holder.pic1Pic.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
-                if (content.get(position).getContentName() != null)
-                    pic1Holder.pic1Name.setText(content.get(position).getContentName());
-                if (content.get(position).getContentDate() != null)
-                    pic1Holder.pic1Date.setText(content.get(position).getContentDate());
+                if (content.get(position).getThumbnail1FilePath() != null)
+                    pic1Holder.pic1Pic.setImageURI(Uri.parse(content.get(position).getThumbnail1FilePath()));
+                if (content.get(position).getImageName() != null)
+                    pic1Holder.pic1Name.setText(content.get(position).getImageName());
+                if (content.get(position).getImageDate() != null)
+                    pic1Holder.pic1Date.setText(content.get(position).getImageDate());
                 break;
             case TYPE_PIC_2:
                 if (convertView == null) {
@@ -108,31 +103,17 @@ public class ListViewAdapter extends BaseAdapter {
                 } else {
                     pic2Holder = (Pic2Holder) convertView.getTag();
                 }
-                if (content.get(position).getContentName() != null)
-                    pic2Holder.pic2Name.setText(content.get(position).getContentName());
-                if (content.get(position).getContentDate() != null)
-                    pic2Holder.pic2Date.setText(content.get(position).getContentDate());
-                if (content.get(position).getThumbnail1Path() != null)
-                    pic2Holder.pic2Pic1.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
-                if (content.get(position).getThumbnail2Path() != null)
-                    pic2Holder.pic2Pic2.setImageURI(Uri.parse(content.get(position).getThumbnail2Path()));
-                if (content.get(position).getThumbnail3Path() != null)
-                    pic2Holder.pic2Pic3.setImageURI(Uri.parse(content.get(position).getThumbnail3Path()));
+                if (content.get(position).getImageName() != null)
+                    pic2Holder.pic2Name.setText(content.get(position).getImageName());
+                if (content.get(position).getImageDate() != null)
+                    pic2Holder.pic2Date.setText(content.get(position).getImageDate());
+                if (content.get(position).getThumbnail1FilePath() != null)
+                    pic2Holder.pic2Pic1.setImageURI(Uri.parse(content.get(position).getThumbnail1FilePath()));
+                if (content.get(position).getThumbnail2FilePath() != null)
+                    pic2Holder.pic2Pic2.setImageURI(Uri.parse(content.get(position).getThumbnail2FilePath()));
+                if (content.get(position).getThumbnail3FilePath() != null)
+                    pic2Holder.pic2Pic3.setImageURI(Uri.parse(content.get(position).getThumbnail3FilePath()));
                 break;
-            case TYPE_VIDEO:
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(context).inflate(R.layout.video_listview, null);
-                    videoHolder = new VideoHolder();
-                    videoHolder.videoName = convertView.findViewById(R.id.videoname);
-                    videoHolder.videoPic = convertView.findViewById(R.id.videopic);
-                    convertView.setTag(videoHolder);
-                } else {
-                    videoHolder = (VideoHolder) convertView.getTag();
-                }
-                if (content.get(position).getContentName() != null)
-                    videoHolder.videoName.setText(content.get(position).getContentName());
-                if (content.get(position).getThumbnail1Path() != null)
-                    videoHolder.videoPic.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
         }
         return convertView;
     }
@@ -152,8 +133,4 @@ public class ListViewAdapter extends BaseAdapter {
         TextView pic2Date;
     }
 
-    class VideoHolder {
-        TextView videoName;
-        ImageView videoPic;
-    }
 }

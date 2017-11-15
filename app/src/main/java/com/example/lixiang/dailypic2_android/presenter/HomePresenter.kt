@@ -5,6 +5,8 @@ package com.example.lixiang.dailypic2_android.presenter
 
 import com.example.lixiang.dailypic2_android.model.api.ApiService
 import com.example.lixiang.dailypic2_android.model.entity.DailyPicDetail
+import com.example.lixiang.dailypic2_android.model.entity.PlanetEarth
+import com.example.lixiang.dailypic2_android.model.entity.PlanetEarthDetail
 import com.example.lixiang.dailypic2_android.model.entity.homePage
 import com.example.lixiang.dailypic2_android.util.NetUtils
 import retrofit2.Call
@@ -20,10 +22,28 @@ class HomePresenter @Inject
 constructor(private val view: HomeContract.View) : HomeContract.Presenter {
 
 
+
     internal var retrofit: Retrofit? = null
     internal var apiService: ApiService? = null
     internal val content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
-    internal var detailContent: DailyPicDetail.DataBean? = null
+    internal var picDetailContent: DailyPicDetail.DataBean? = null
+    internal var videoDetailContent: PlanetEarthDetail.DataBean? = null
+
+    override fun getVideoPicDetail(id: String) {
+        retrofit = NetUtils.getRetrofit()
+        apiService = retrofit!!.create(ApiService::class.java)
+        val call = apiService!!.PlanetEarthDetail(id)
+        call.enqueue(object : retrofit2.Callback<PlanetEarthDetail> {
+            override fun onFailure(call: Call<PlanetEarthDetail>?, t: Throwable?) {
+            }
+
+            override fun onResponse(call: Call<PlanetEarthDetail>?, response: Response<PlanetEarthDetail>?) {
+                videoDetailContent = response!!.body().data
+                view.toVideoDetailPage(videoDetailContent)
+            }
+        })
+    }
+
 
     override fun getDailyPicDetail(id: String) {
         retrofit = NetUtils.getRetrofit()
@@ -34,8 +54,8 @@ constructor(private val view: HomeContract.View) : HomeContract.Presenter {
             }
 
             override fun onResponse(call: Call<DailyPicDetail>?, response: Response<DailyPicDetail>?) {
-                detailContent = response!!.body().data
-                view.toPicDetailPage(detailContent)
+                picDetailContent = response!!.body().data
+                view.toPicDetailPage(picDetailContent)
             }
         })
     }

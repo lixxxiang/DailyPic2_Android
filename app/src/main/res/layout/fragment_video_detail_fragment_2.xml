@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lixiang.dailypic2_android.view.fragment.VideoDetailFragment_2">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/video_brief"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:text="费萨拉巴德位于巴基斯坦东北部，总面积5,856平方公里。费萨拉巴德基斯坦东北部，总面积5,856平方公里费费巴德基斯巴德基斯哪坦" />
+
+    <TextView
+        android:id="@+id/video_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/video_brief"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="10dp"
+        android:text="每日一图 · 02-02"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        />
+
+</RelativeLayout>

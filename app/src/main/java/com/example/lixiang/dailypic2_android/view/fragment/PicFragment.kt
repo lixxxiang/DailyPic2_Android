@@ -9,7 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.lixiang.dailypic2_android.R
+import com.example.lixiang.dailypic2_android.di.components.DaggerPicComponent
+import com.example.lixiang.dailypic2_android.di.modules.PicModule
+import com.example.lixiang.dailypic2_android.model.entity.DailyPic
 import com.example.lixiang.dailypic2_android.presenter.PicContract
+import com.example.lixiang.dailypic2_android.presenter.PicPresenter
+import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
+import com.example.lixiang.dailypic2_android.util.PicListViewAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_pic.*
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -20,6 +29,13 @@ import com.example.lixiang.dailypic2_android.presenter.PicContract
  * create an instance of this fragment.
  */
 class PicFragment : Fragment(), PicContract.View {
+    var data : MutableList<DailyPic.DataBean.SjDailyPicDtoListBean> = mutableListOf()
+    override fun loadPicData(content: MutableList<DailyPic.DataBean.SjDailyPicDtoListBean>) {
+        println("Daily Pic content" + content)
+        data = content
+        val adapter = PicListViewAdapter(activity.applicationContext, content)
+        listview1.adapter = adapter
+    }
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -27,12 +43,16 @@ class PicFragment : Fragment(), PicContract.View {
 
     private var mListener: OnFragmentInteractionListener? = null
 
+
+    @Inject lateinit var presenter: PicPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mParam1 = arguments.getString(ARG_PARAM1)
             mParam2 = arguments.getString(ARG_PARAM2)
         }
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -41,11 +61,25 @@ class PicFragment : Fragment(), PicContract.View {
         return inflater!!.inflate(R.layout.fragment_pic, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        DaggerPicComponent.builder().picModule(PicModule(this))
+                .build()
+                .inject(this)
+
+        presenter.loadPicData("10", "1")
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         if (mListener != null) {
             mListener!!.onFragmentInteraction(uri)
         }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
     }
 
 

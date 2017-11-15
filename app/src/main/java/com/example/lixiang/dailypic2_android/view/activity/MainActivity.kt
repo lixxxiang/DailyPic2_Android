@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView
 import com.example.lixiang.dailypic2_android.util.BottomNavigationViewHelper
 import android.support.v4.view.ViewPager
 import android.widget.AdapterView
+import android.widget.TextView
 import com.example.lixiang.dailypic2_android.util.ViewPagerAdapter
 import butterknife.BindView
 import butterknife.OnItemClick
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
      * test Banner
      */
 
+    lateinit var title : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,25 +47,47 @@ class MainActivity : AppCompatActivity() {
         main_viewpager.setAdapter(viewPagerAdapter)
 
 
+        title = findViewById(R.id.toobarTitle)
         navigation.setOnNavigationItemSelectedListener { item ->
 //            var itemId = item.itemId
             var tab = 0
             when (item.itemId) {
-                R.id.navigation_home -> tab = 0
-                R.id.navigation_pic -> tab = 1
-                R.id.navigation_video -> tab = 2
-                R.id.navigation_me -> tab = 3
+                R.id.navigation_home -> {
+                    tab = 0
+                    title.setText("星途")
+                }
+
+                R.id.navigation_pic -> {
+                    tab = 1
+                    title.setText("每日一图")
+                }
+
+                R.id.navigation_video -> {
+                    tab = 2
+                    title.setText("脉动地球")
+                }
+
+                R.id.navigation_me -> {
+                    tab = 3
+                    title.setText("我的")
+                }
             }
             main_viewpager.setCurrentItem(tab)
             false
         }
         main_viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
             }
 
             override fun onPageSelected(position: Int) {
                 navigation.menu.getItem(position).setChecked(true)
+                when(position){
+                    0 -> title.setText("星途")
+                    1 -> title.setText("每日一图")
+                    2 -> title.setText("脉动地球")
+                    3 -> title.setText("我的")
+                }
+
             }
 
             override fun onPageScrollStateChanged(state: Int) {

@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    android:id="@+id/pic_detail_2"
+    android:id="@+id/video_detail_2"
 
     >
     <org.apache.cordova.engine.SystemWebView
-        android:id="@+id/webview1"
+        android:id="@+id/webview2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>
