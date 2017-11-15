@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by lixiang on 2017/11/15.
  */
 
-public class PlanetEarthDetail {
+public class PlanetEarthDetail implements Serializable{
 
     /**
      * data : {"latitude":"44","longitude":"122","mp4FilePath":"http://10.10.90.11:8080/video/201708261020000421859.mp4","playCount":"4681","thumbnailFilePath":"http://202.111.178.10:28085/upload/image/201711141808000089371_thumb.jpg","videoDuration":"5:00","videoId":"17111511510004480","videoName":"测试上传脉动地球","videoTime":"2017-11-11"}

@@ -74,7 +74,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
     override fun requestPermission(p0: CordovaPlugin?, p1: Int, p2: String?) {
     }
 
-    var toFragment = PlanetEarthDetail.DataBean()
+    var toFragment2 = PlanetEarthDetail.DataBean()
     val titleList = object : ArrayList<String>() {
         init {
             add("脉动地球")
@@ -107,7 +107,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
                 } else {
                     video_detail_1.visibility = View.INVISIBLE
                     video_detail_2.visibility = View.VISIBLE
-                    webview2.loadUrl("javascript:fly(\"" + toFragment.latitude + "\",\""+toFragment.longitude+ "\")")
+                    webview2.loadUrl("javascript:fly(\"" + toFragment2.latitude + "\",\""+toFragment2.longitude+ "\")")
                 }
             }
 
@@ -117,7 +117,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
             override fun onTabReselected(tab: XTabLayout.Tab) {
             }
         })
-        toFragment = getIntent().getSerializableExtra("VideoDetailContent") as PlanetEarthDetail.DataBean
+        toFragment2 = getIntent().getSerializableExtra("VideoDetailContent") as PlanetEarthDetail.DataBean
         videoback.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 finish()
@@ -145,7 +145,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
     }
 
     fun getData(): PlanetEarthDetail.DataBean? {
-        return toFragment
+        return toFragment2
     }
 
 }
