@@ -6,6 +6,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
 import android.view.View
 import com.androidkun.xtablayout.XTabLayout
 import com.example.lixiang.dailypic2_android.R

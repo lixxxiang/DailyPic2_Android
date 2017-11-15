@@ -117,6 +117,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
             override fun onTabReselected(tab: XTabLayout.Tab) {
             }
         })
+
         toFragment2 = getIntent().getSerializableExtra("VideoDetailContent") as PlanetEarthDetail.DataBean
         videoback.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {

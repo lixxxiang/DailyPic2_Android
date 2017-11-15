@@ -35,6 +35,7 @@ import javax.inject.Inject
  */
 class HomeFragment : Fragment(), HomeContract.View {
     override fun toVideoDetailPage(videoDetailContent: PlanetEarthDetail.DataBean?) {
+        println("toVideoView")
         val intent = Intent(activity, VideoDetailActivity::class.java)
         intent.putExtra("VideoDetailContent", videoDetailContent)
         startActivity(intent)
@@ -108,7 +109,9 @@ class HomeFragment : Fragment(), HomeContract.View {
 //            println("parent" + data.get(position).contentId)
             if (data.get(position).type == "1")
                 presenter.getDailyPicDetail(data.get(position).contentId)
-            presenter.getVideoPicDetail(data.get(position).contentId)
+            else{
+                presenter.getVideoPicDetail(data.get(position).contentId)
+            }
         }
         /**
          * test param 10,1

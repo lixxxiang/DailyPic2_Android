@@ -13,7 +13,7 @@ public class NetUtils {
     public static Retrofit getRetrofit(){
         if (retrofit == null){
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.tempUrlPrefix)
+                    .baseUrl(Constants.UrlPrefix)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

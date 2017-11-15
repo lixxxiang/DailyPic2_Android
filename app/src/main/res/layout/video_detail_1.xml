@@ -1,79 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/video_detail_1"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+
+    <TextView
+        android:id="@+id/videodetailname"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_below="@+id/videodetailpic"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        tools:text="费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴..." />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/videodetailpic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="169dp"
+        android:layout_below="@+id/videoname"
+        android:layout_marginEnd="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="14dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/test"
+        fresco:placeholderImage="@drawable/video_image"
+        fresco:roundedCornerRadius="5dp"/>
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="24dp"-->
-            <!--android:layout_marginLeft="17dp"-->
-            <!--android:layout_marginRight="17dp"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_marginStart="17dp"-->
-            <!--android:layout_marginEnd="17dp">-->
-            <!--<TextView-->
-                <!--android:id="@+id/description_1"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="14dp"-->
-                <!--android:textColor="#5c5c5c"-->
-                <!--android:text="费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴...费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴...费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴..." />-->
+    <ImageView
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/play_button"
+        android:layout_marginTop="75dp"
+        android:id="@+id/imageView" />
 
-            <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                <!--android:id="@+id/picture_1"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="197dp"-->
-                <!--android:layout_below="@+id/description_1"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--fresco:placeholderImage="@drawable/detail_defau"-->
-                <!--fresco:roundedCornerRadius="5dp" />-->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginRight="17dp"
+        android:layout_alignBottom="@+id/videodetailpic"
+        android:layout_alignLeft="@+id/videodetailpic"
+        android:layout_alignStart="@+id/videodetailpic"
+        android:background="@drawable/mask" />
 
-            <!--<TextView-->
-                <!--android:layout_below="@+id/picture_1"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--android:id="@+id/description_2"-->
-                <!--android:textSize="14dp"-->
-                <!--android:textColor="#5c5c5c"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴...费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴...费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴..." />-->
+    <TextView
+        android:id="@+id/detailplayTimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/videodetailpic"
+        android:layout_alignStart="@+id/videodetailpic"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="12dp"
+        android:textColor="#ffffff"
+        />
 
-            <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                <!--android:id="@+id/picture_2"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="197dp"-->
-                <!--android:layout_below="@+id/description_2"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--fresco:placeholderImage="@drawable/detail_defau"-->
-                <!--fresco:roundedCornerRadius="5dp" />-->
-
-            <!--<TextView-->
-                <!--android:layout_below="@+id/picture_2"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--android:id="@+id/description_3"-->
-                <!--android:textSize="14dp"-->
-                <!--android:textColor="#5c5c5c"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴...费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴...费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴..." />-->
-
-            <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                <!--android:id="@+id/picture_3"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="197dp"-->
-                <!--android:layout_below="@+id/description_3"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--fresco:placeholderImage="@drawable/detail_defau"-->
-                <!--fresco:roundedCornerRadius="5dp" />-->
-        <!--</RelativeLayout>-->
-
-
-    </ScrollView>
-</LinearLayout>
+    <TextView
+        android:id="@+id/detailduration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/videodetailpic"
+        android:layout_alignRight="@+id/videodetailpic"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:textSize="12dp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="6dp"
+        />
+</RelativeLayout>
