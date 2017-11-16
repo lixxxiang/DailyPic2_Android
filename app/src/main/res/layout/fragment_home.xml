@@ -5,23 +5,35 @@
     tools:context="com.example.lixiang.dailypic2_android.view.fragment.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.youth.banner.Banner
-        android:id="@+id/banner"
+    <com.example.lixiang.dailypic2_android.util.SwipeRefreshView
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
-    <ListView
-        android:layout_below="@+id/banner"
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@drawable/list_divider"
-        android:dividerHeight="1dp">
-    </ListView>
-    <RelativeLayout
-        android:layout_below="@+id/listview"
-        android:background="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"/>
+            <ListView
+                android:layout_below="@+id/banner"
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/list_divider"
+                android:dividerHeight="1dp">
+            </ListView>
+            <RelativeLayout
+                android:layout_below="@+id/listview"
+                android:background="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"/>
+        </LinearLayout>
+    </com.example.lixiang.dailypic2_android.util.SwipeRefreshView>
+
+
 
 </RelativeLayout>

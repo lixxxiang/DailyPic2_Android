@@ -1,7 +1,9 @@
 package com.example.lixiang.dailypic2_android.view.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -90,6 +92,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
     }
 
     var adapter: VideoDetailAdapter? = null
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_detail)
@@ -107,7 +110,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
                 } else {
                     video_detail_1.visibility = View.INVISIBLE
                     video_detail_2.visibility = View.VISIBLE
-                    webview2.loadUrl("javascript:fly(\"" + toFragment2.latitude + "\",\""+toFragment2.longitude+ "\")")
+                    webview2.loadUrl("javascript:fly(\"" + toFragment2.latitude + "\",\"" + toFragment2.longitude + "\")")
                 }
             }
 
@@ -131,18 +134,22 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
         cordovaWebView!!.init(this, parser.pluginEntries, parser.preferences)
         webview2.loadUrl("file:///android_asset/www/index.html")
 
-//        if (toFragment.richText1 != null)
-//            description_1.setText(toFragment.richText1)
-//        if (toFragment.richText2 != null)
-//            description_2.setText(toFragment.richText2)
-//        if (toFragment.richText3 != null)
-//            description_3.setText(toFragment.richText3)
-//        if (toFragment.image1FilePath != null)
-//            picture_1.setImageURI(Uri.parse(toFragment.image1FilePath))
-//        if (toFragment.image2FilePath != null)
-//            picture_2.setImageURI(Uri.parse(toFragment.image2FilePath))
-//        if (toFragment.image3FilePath != null)
-//            picture_3.setImageURI(Uri.parse(toFragment.image3FilePath))
+        if (toFragment2.videoName != null)
+            videodetailname.setText(toFragment2.videoName)
+        if (toFragment2.thumbnailFilePath != null)
+            videodetailpic.setImageURI(Uri.parse(toFragment2.thumbnailFilePath))
+        if (toFragment2.playCount != null)
+            detailplayTimes.text = toFragment2.playCount + "次播放"
+        if (toFragment2.videoDuration != null)
+            detailduration.setText(toFragment2.videoDuration)
+
+        videodetailpic.setOnClickListener {
+            var intent = Intent(this, PlayVideoActivity::class.java)
+            if (toFragment2.mp4FilePath != null){
+                intent.putExtra("url", toFragment2.mp4FilePath)
+                startActivity(intent)
+            }
+        }
     }
 
     fun getData(): PlanetEarthDetail.DataBean? {

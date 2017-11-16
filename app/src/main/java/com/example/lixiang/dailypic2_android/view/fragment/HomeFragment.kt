@@ -1,12 +1,15 @@
 package com.example.lixiang.dailypic2_android.view.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 
 import com.example.lixiang.dailypic2_android.R
@@ -52,7 +55,9 @@ class HomeFragment : Fragment(), HomeContract.View {
     override fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>) {
 //        println("content" + content)
         data = content
+        println("---------->" + content.get(0).contentName)
         val adapter = HomeListViewAdapter(activity.applicationContext, content)
+        adapter.notifyDataSetChanged()
         listview.adapter = adapter
     }
 
@@ -117,6 +122,22 @@ class HomeFragment : Fragment(), HomeContract.View {
          * test param 10,1
          */
         presenter.getHomePageData("10", "1")
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#6299ff"))
+        swipeRefreshLayout.setOnRefreshListener {
+            presenter.getHomePageData("10", "1")
+            Handler().postDelayed({
+                swipeRefreshLayout.isRefreshing = false
+
+            }, 1200)
+        }
+        listview.setOnScrollListener(object : AbsListView.OnScrollListener{
+            override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                swipeRefreshLayout.isEnabled = firstVisibleItem == 0
+            }
+
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+            }
+        })
     }
 
     // TODO: Rename method, update argument and hook method into UI event

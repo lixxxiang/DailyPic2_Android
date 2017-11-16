@@ -30,7 +30,7 @@
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="17dp"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/test"
         fresco:placeholderImage="@drawable/video_image"

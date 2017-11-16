@@ -1,21 +1,25 @@
 package com.example.lixiang.dailypic2_android.view.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 
 import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.di.components.DaggerPicComponent
 import com.example.lixiang.dailypic2_android.di.modules.PicModule
 import com.example.lixiang.dailypic2_android.model.entity.DailyPic
+import com.example.lixiang.dailypic2_android.model.entity.DailyPicDetail
 import com.example.lixiang.dailypic2_android.presenter.PicContract
 import com.example.lixiang.dailypic2_android.presenter.PicPresenter
 import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
 import com.example.lixiang.dailypic2_android.util.PicListViewAdapter
+import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_pic.*
 import javax.inject.Inject
@@ -29,6 +33,12 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 class PicFragment : Fragment(), PicContract.View {
+    override fun toPicDetailPage(picDetailContent: DailyPicDetail.DataBean?) {
+        val intent = Intent(activity, PicDetailActivity::class.java)
+        intent.putExtra("picDetailContent", picDetailContent)
+        startActivity(intent)
+    }
+
     var data : MutableList<DailyPic.DataBean.SjDailyPicDtoListBean> = mutableListOf()
     override fun loadPicData(content: MutableList<DailyPic.DataBean.SjDailyPicDtoListBean>) {
         println("Daily Pic content" + content)
@@ -68,6 +78,10 @@ class PicFragment : Fragment(), PicContract.View {
                 .inject(this)
 
         presenter.loadPicData("10", "1")
+
+        listview1.onItemClickListener = AdapterView.OnItemClickListener{parent, view, position, id ->
+            presenter.getDailyPicDetail(data.get(position).imageId)
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

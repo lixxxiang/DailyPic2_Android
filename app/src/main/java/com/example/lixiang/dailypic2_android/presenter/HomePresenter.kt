@@ -25,7 +25,7 @@ constructor(private val view: HomeContract.View) : HomeContract.Presenter {
 
     internal var retrofit: Retrofit? = null
     internal var apiService: ApiService? = null
-    internal val content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
+
     internal var picDetailContent: DailyPicDetail.DataBean? = null
     internal var videoDetailContent: PlanetEarthDetail.DataBean? = null
 
@@ -69,7 +69,12 @@ constructor(private val view: HomeContract.View) : HomeContract.Presenter {
             }
 
             override fun onResponse(call: Call<homePage>?, response: Response<homePage>?) {
+//                if(content != null){
+//                    var content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
+//                }
+                var content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
                 (0 until response!!.body().data.mixedContentList.size).mapTo(content) { response.body().data.mixedContentList.get(it) }
+                println("==========" + content.get(0).contentName)
                 view.loadData(content)
             }
         })

@@ -1,20 +1,24 @@
 package com.example.lixiang.dailypic2_android.view.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 
 import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.di.components.DaggerVideoComponent
 import com.example.lixiang.dailypic2_android.di.modules.VideoModule
 import com.example.lixiang.dailypic2_android.model.entity.PlanetEarth
+import com.example.lixiang.dailypic2_android.model.entity.PlanetEarthDetail
 import com.example.lixiang.dailypic2_android.presenter.VideoContract
 import com.example.lixiang.dailypic2_android.presenter.VideoPresenter
 import com.example.lixiang.dailypic2_android.util.VideoListViewAdapter
+import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
 import kotlinx.android.synthetic.main.fragment_video.*
 import javax.inject.Inject
 
@@ -27,6 +31,12 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 class VideoFragment : Fragment(),VideoContract.View{
+    override fun toVideoDetailPage(videoDetailContent: PlanetEarthDetail.DataBean?) {
+        val intent = Intent(activity, VideoDetailActivity::class.java)
+        intent.putExtra("VideoDetailContent", videoDetailContent)
+        startActivity(intent)
+    }
+
     var data : MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
     override fun loadVideoData(videoContent: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean>) {
         println("Planet Earth content" + videoContent)
@@ -70,6 +80,10 @@ class VideoFragment : Fragment(),VideoContract.View{
                 .inject(this)
 
         presenter.loadVideoData("10", "1")
+
+        listview2.onItemClickListener = AdapterView.OnItemClickListener{ parent, view, position, id ->
+            presenter.getPlanetEarthDetail(data.get(position).videoId)
+        }
     }
 
     override fun onDetach() {
