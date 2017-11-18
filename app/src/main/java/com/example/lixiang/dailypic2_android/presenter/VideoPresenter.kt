@@ -18,9 +18,10 @@ class VideoPresenter @Inject
 constructor(private val view: VideoContract.View) : VideoContract.Presenter {
 
 
+
     internal var retrofit: Retrofit? = null
     internal var apiService: ApiService? = null
-    internal var content: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
+    internal var sumContent: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
     internal var videoContent: PlanetEarth.DataBean? = null
     internal var videoDetailContent: PlanetEarthDetail.DataBean? = null
 
@@ -33,8 +34,29 @@ constructor(private val view: VideoContract.View) : VideoContract.Presenter {
             }
 
             override fun onResponse(call: Call<PlanetEarth>?, response: Response<PlanetEarth>?) {
+                val content: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
                 (0 until response!!.body().data.sjMobilePlanetEarthDtoList.size).mapTo(content) { response.body().data.sjMobilePlanetEarthDtoList.get(it) }
-                view.loadVideoData(content)
+                if(sumContent.size != 0)
+                    sumContent.clear()
+                sumContent.addAll(content)
+                view.loadVideoData(sumContent, response!!.body().data.pages)
+            }
+        })
+    }
+
+    override fun loadMoreVideoData(pageSize: String, pageNum: String) {
+        retrofit = NetUtils.getRetrofit()
+        apiService = retrofit!!.create(ApiService::class.java)
+        val call = apiService!!.PlanetEarth(pageSize, pageNum)
+        call.enqueue(object : retrofit2.Callback<PlanetEarth> {
+            override fun onFailure(call: Call<PlanetEarth>?, t: Throwable?) {
+            }
+
+            override fun onResponse(call: Call<PlanetEarth>?, response: Response<PlanetEarth>?) {
+                val content: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
+                (0 until response!!.body().data.sjMobilePlanetEarthDtoList.size).mapTo(content) { response.body().data.sjMobilePlanetEarthDtoList.get(it) }
+                sumContent.addAll(content)
+                view.loadMoreVideoData(sumContent)
             }
         })
     }

@@ -2,9 +2,12 @@ package com.example.lixiang.dailypic2_android.view.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,7 @@ import com.example.lixiang.dailypic2_android.presenter.PicContract
 import com.example.lixiang.dailypic2_android.presenter.PicPresenter
 import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
 import com.example.lixiang.dailypic2_android.util.PicListViewAdapter
+import com.example.lixiang.dailypic2_android.util.SwipeRefreshView
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_pic.*
@@ -33,6 +37,7 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 class PicFragment : Fragment(), PicContract.View {
+
     override fun toPicDetailPage(picDetailContent: DailyPicDetail.DataBean?) {
         val intent = Intent(activity, PicDetailActivity::class.java)
         intent.putExtra("picDetailContent", picDetailContent)
@@ -40,17 +45,24 @@ class PicFragment : Fragment(), PicContract.View {
     }
 
     var data : MutableList<DailyPic.DataBean.SjDailyPicDtoListBean> = mutableListOf()
-    override fun loadPicData(content: MutableList<DailyPic.DataBean.SjDailyPicDtoListBean>) {
+    var adapter = PicListViewAdapter(activity, data)
+    var picMaxCount = 0
+    override fun loadPicData(content: MutableList<DailyPic.DataBean.SjDailyPicDtoListBean>, count: Int) {
         println("Daily Pic content" + content)
         data = content
-        val adapter = PicListViewAdapter(activity.applicationContext, content)
+        picMaxCount = count
+        adapter = PicListViewAdapter(activity.applicationContext, content)
         listview1.adapter = adapter
+    }
+
+    override fun loadMorePicData(content: MutableList<DailyPic.DataBean.SjDailyPicDtoListBean>) {
+        adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
-
+    var num_pic = 1
     private var mListener: OnFragmentInteractionListener? = null
 
 
@@ -82,6 +94,28 @@ class PicFragment : Fragment(), PicContract.View {
         listview1.onItemClickListener = AdapterView.OnItemClickListener{parent, view, position, id ->
             presenter.getDailyPicDetail(data.get(position).imageId)
         }
+
+        swipeRefreshLayout_pic.setColorSchemeColors(Color.parseColor("#6299ff"))
+        swipeRefreshLayout_pic.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            presenter.loadPicData("10", "1")
+            Handler().postDelayed({
+                swipeRefreshLayout_pic.isRefreshing = false
+
+            }, 1200)
+        })
+
+
+        // 设置下拉加载更多
+        swipeRefreshLayout_pic.setOnLoadMoreListener(object : SwipeRefreshView.OnLoadMoreListener{
+            override fun onLoadMore() {
+                num_pic ++
+                if (num_pic < picMaxCount){
+                    println("num" + num_pic)
+                    presenter.loadMorePicData("10", num_pic.toString())
+                    swipeRefreshLayout_pic.setLoading(false)
+                }
+            }
+        })
     }
 
     // TODO: Rename method, update argument and hook method into UI event

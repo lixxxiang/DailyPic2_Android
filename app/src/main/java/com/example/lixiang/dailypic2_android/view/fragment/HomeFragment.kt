@@ -6,11 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AdapterView
+import android.widget.Button
 
 import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.di.components.DaggerHomeComponent
@@ -22,10 +24,14 @@ import com.example.lixiang.dailypic2_android.presenter.HomeContract
 import com.example.lixiang.dailypic2_android.presenter.HomePresenter
 import com.example.lixiang.dailypic2_android.util.GlideImageLoader
 import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
+import com.example.lixiang.dailypic2_android.util.NetWorkUtils
+import com.example.lixiang.dailypic2_android.util.SwipeRefreshView
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
 import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
+import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.home_header_view.*
 import javax.inject.Inject
 
 /**
@@ -37,6 +43,8 @@ import javax.inject.Inject
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment(), HomeContract.View {
+
+
     override fun toVideoDetailPage(videoDetailContent: PlanetEarthDetail.DataBean?) {
         println("toVideoView")
         val intent = Intent(activity, VideoDetailActivity::class.java)
@@ -48,21 +56,27 @@ class HomeFragment : Fragment(), HomeContract.View {
         val intent = Intent(activity, PicDetailActivity::class.java)
         intent.putExtra("picDetailContent", picDetailContent)
         startActivity(intent)
-
     }
 
     var data: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
-    override fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>) {
-//        println("content" + content)
+    var adapter = HomeListViewAdapter(activity, data)
+    var maxCount = 0;
+    override fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>, count: Int) {
         data = content
+        maxCount = count
         println("---------->" + content.get(0).contentName)
-        val adapter = HomeListViewAdapter(activity.applicationContext, content)
+        adapter = HomeListViewAdapter(activity.applicationContext, content)
         adapter.notifyDataSetChanged()
         listview.adapter = adapter
     }
 
+    override fun loadMoreData(content: MutableList<homePage.DataBean.MixedContentListBean>) {
+        adapter.notifyDataSetChanged()
+    }
+
     val images = mutableListOf<String>()
     val titles = mutableListOf<String>()
+    var num = 1
 
     @Inject lateinit var presenter: HomePresenter
 
@@ -98,7 +112,8 @@ class HomeFragment : Fragment(), HomeContract.View {
         titles.add("3")
         titles.add("4")
         titles.add("5")
-
+        val headerView = layoutInflater.inflate(R.layout.home_header_view, null)
+        val banner : Banner = headerView.findViewById(R.id.banner)
         banner.setImageLoader(GlideImageLoader())
         banner.setImages(images)
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE)
@@ -109,35 +124,42 @@ class HomeFragment : Fragment(), HomeContract.View {
                 .build()
                 .inject(this)
 
-
+        listview.addHeaderView(headerView)
         listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-//            println("parent" + data.get(position).contentId)
-            if (data.get(position).type == "1")
-                presenter.getDailyPicDetail(data.get(position).contentId)
-            else{
-                presenter.getVideoPicDetail(data.get(position).contentId)
+            if (data.get(position - 1).type == "1")
+                presenter.getDailyPicDetail(data.get(position - 1).contentId)
+            else {
+                presenter.getVideoPicDetail(data.get(position - 1).contentId)
             }
         }
         /**
          * test param 10,1
          */
+
         presenter.getHomePageData("10", "1")
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#6299ff"))
-        swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             presenter.getHomePageData("10", "1")
             Handler().postDelayed({
                 swipeRefreshLayout.isRefreshing = false
-
             }, 1200)
-        }
-        listview.setOnScrollListener(object : AbsListView.OnScrollListener{
-            override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-                swipeRefreshLayout.isEnabled = firstVisibleItem == 0
-            }
-
-            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
-            }
         })
+
+
+        // 设置下拉加载更多
+        swipeRefreshLayout.setOnLoadMoreListener {
+            num++
+            println("num" + num)
+            if (num < maxCount){
+                presenter.loadMore("10", num.toString())
+                swipeRefreshLayout.setLoading(false)
+            }
+        }
+        println("////////" + NetWorkUtils.isNetworkConnected(activity))
+        if(!NetWorkUtils.isNetworkConnected(activity)){
+            no_network.visibility = View.VISIBLE
+        }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

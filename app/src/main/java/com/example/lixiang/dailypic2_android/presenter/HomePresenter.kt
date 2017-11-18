@@ -20,12 +20,9 @@ import javax.inject.Inject
 
 class HomePresenter @Inject
 constructor(private val view: HomeContract.View) : HomeContract.Presenter {
-
-
-
     internal var retrofit: Retrofit? = null
     internal var apiService: ApiService? = null
-
+    internal var sumContent: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
     internal var picDetailContent: DailyPicDetail.DataBean? = null
     internal var videoDetailContent: PlanetEarthDetail.DataBean? = null
 
@@ -69,13 +66,31 @@ constructor(private val view: HomeContract.View) : HomeContract.Presenter {
             }
 
             override fun onResponse(call: Call<homePage>?, response: Response<homePage>?) {
-//                if(content != null){
-//                    var content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
-//                }
-                var content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
+                val content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
                 (0 until response!!.body().data.mixedContentList.size).mapTo(content) { response.body().data.mixedContentList.get(it) }
-                println("==========" + content.get(0).contentName)
-                view.loadData(content)
+                if(sumContent.size != 0)
+                    sumContent.clear()
+                sumContent.addAll(content)
+                println("=====1=====" + sumContent.size)
+                view.loadData(sumContent, response!!.body().data.pages)
+            }
+        })
+    }
+
+    override fun loadMore(size: String, num: String) {
+        retrofit = NetUtils.getRetrofit()
+        apiService = retrofit!!.create(ApiService::class.java)
+        val call = apiService!!.homePage(size, num)
+        call.enqueue(object : retrofit2.Callback<homePage> {
+            override fun onFailure(call: Call<homePage>?, t: Throwable?) {
+            }
+
+            override fun onResponse(call: Call<homePage>?, response: Response<homePage>?) {
+                val content: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
+                (0 until response!!.body().data.mixedContentList.size).mapTo(content) { response.body().data.mixedContentList.get(it) }
+                sumContent.addAll(content)
+                println("=====2=====" + sumContent.size)
+                view.loadMoreData(sumContent)
             }
         })
     }

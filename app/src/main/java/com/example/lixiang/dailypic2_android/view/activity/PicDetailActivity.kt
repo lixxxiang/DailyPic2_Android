@@ -1,5 +1,6 @@
 package com.example.lixiang.dailypic2_android.view.activity
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -15,6 +16,7 @@ import com.example.lixiang.dailypic2_android.util.PicDetailAdapter
 import com.example.lixiang.dailypic2_android.view.fragment.PicDetailFragment_1
 import com.example.lixiang.dailypic2_android.view.fragment.PicDetailFragment_2
 import kotlinx.android.synthetic.main.activity_pic_detail.*
+import kotlinx.android.synthetic.main.activity_show_image.*
 import kotlinx.android.synthetic.main.pic_detail_1.*
 import kotlinx.android.synthetic.main.pic_detail_2.*
 import org.apache.cordova.*
@@ -24,7 +26,10 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class PicDetailActivity : AppCompatActivity(), CordovaInterface {
+
+class PicDetailActivity : AppCompatActivity(), CordovaInterface{
+
+
     var cordovaWebView: CordovaWebView? = null
     private val threadPool = Executors.newCachedThreadPool()
     protected var activityResultRequestCode: Int = 0
@@ -32,7 +37,6 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface {
     protected var pluginEntries: ArrayList<PluginEntry>? = null
     protected var activityResultCallback1: CordovaPlugin? = null
     lateinit var systemWebView: SystemWebView
-
     override fun requestPermissions(p0: CordovaPlugin?, p1: Int, p2: Array<out String>?) {
 
     }
@@ -94,7 +98,7 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface {
 
     var adapter: PicDetailAdapter? = null
 
-//    override fun onStop() {
+    //    override fun onStop() {
 //        unregisterReceiver(this)
 //        super.onStop()
 //    }
@@ -115,7 +119,7 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface {
                 } else {
                     pic_detail_1.visibility = View.INVISIBLE
                     pic_detail_2.visibility = View.VISIBLE
-                    webview1.loadUrl("javascript:fly(\"" + toFragment.latitude + "\",\""+toFragment.longitude+ "\")")
+                    webview1.loadUrl("javascript:fly(\"" + toFragment.latitude + "\",\"" + toFragment.longitude + "\")")
                 }
             }
 
@@ -146,14 +150,33 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface {
             description_3.setText(toFragment.richText3)
         if (toFragment.image1FilePath != null)
             picture_1.setImageURI(Uri.parse(toFragment.image1FilePath))
-        if (toFragment.image2FilePath != null)
+        if (toFragment.image2FilePath.isNotEmpty())
             picture_2.setImageURI(Uri.parse(toFragment.image2FilePath))
-        if (toFragment.image3FilePath != null)
+        else
+            picture_2.visibility = View.GONE
+        if (toFragment.image3FilePath.isNotEmpty())
             picture_3.setImageURI(Uri.parse(toFragment.image3FilePath))
+        else
+            picture_3.visibility = View.GONE
 
+        picture_1.setOnClickListener {
+            showImage(toFragment.image1FilePath)
+        }
+        picture_2.setOnClickListener {
+            showImage(toFragment.image2FilePath)
+        }
+        picture_3.setOnClickListener {
+            showImage(toFragment.image3FilePath)
+        }
+    }
+
+    private fun showImage(url: String) {
+        startActivity(Intent(this, ShowImageActivity::class.java).putExtra("imageUrl", url))
     }
 
     fun getData(): DailyPicDetail.DataBean? {
         return toFragment
     }
+
+
 }

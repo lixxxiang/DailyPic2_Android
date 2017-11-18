@@ -13,11 +13,13 @@ interface HomeContract {
         fun getHomePageData(size : String, num : String)
         fun getDailyPicDetail(id : String)
         fun getVideoPicDetail(id : String)
+        fun loadMore(size : String, num : String)
     }
 
     interface View{
-        fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>)
+        fun loadData(content: MutableList<homePage.DataBean.MixedContentListBean>, count: Int )
         fun toPicDetailPage(picDetailContent: DailyPicDetail.DataBean?)
         fun toVideoDetailPage(videoDetailContent: PlanetEarthDetail.DataBean?)
+        fun loadMoreData(content: MutableList<homePage.DataBean.MixedContentListBean>)
     }
 }

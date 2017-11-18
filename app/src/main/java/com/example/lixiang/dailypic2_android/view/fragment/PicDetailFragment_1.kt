@@ -10,6 +10,7 @@ import android.view.ViewGroup
 
 import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
+import kotlinx.android.synthetic.main.fragment_pic_detail_fragment_1.*
 
 /**
  * A simple [Fragment] subclass.
@@ -40,6 +41,8 @@ class PicDetailFragment_1 : Fragment() {
         val picDetailActivity : PicDetailActivity = activity as PicDetailActivity
 
         println(">>" + picDetailActivity.getData()!!.image1FilePath)
+        pic_brief.text = picDetailActivity.getData()!!.imageName
+        pic_date.text = picDetailActivity.getData()!!.imageDate
 
     }
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

@@ -51,4 +51,6 @@ dependencies {
     implementation files('libs/cordova-6.2.0-dev.jar')
     compile 'com.linsea:universalvideoview:1.1.0@aar'
     compile 'com.wang.avi:library:1.0.1'
+    compile 'me.relex:photodraweeview:1.1.0'
+    compile 'pub.devrel:easypermissions:1.0.1'
 }

@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.lixiang.dailypic2_android.R
+import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
+import kotlinx.android.synthetic.main.fragment_video_detail_fragment_1.*
+import kotlinx.android.synthetic.main.fragment_video_detail_fragment_2.*
 
 /**
  * A simple [Fragment] subclass.
@@ -40,6 +43,15 @@ class VideoDetailFragment_2 : Fragment() {
         return inflater!!.inflate(R.layout.fragment_video_detail_fragment_2, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val videoDetailActivity : VideoDetailActivity = activity as VideoDetailActivity
+
+        println(">>" + videoDetailActivity.getData()!!.thumbnailFilePath)
+
+        video_brief2.text = videoDetailActivity.getData()!!.videoName
+        video_date2.text = videoDetailActivity.getData()!!.videoTime
+    }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         if (mListener != null) {

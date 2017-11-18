@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
      * test Banner
      */
 
-    lateinit var title : TextView
+    lateinit var title: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         title = findViewById(R.id.toobarTitle)
         navigation.setOnNavigationItemSelectedListener { item ->
-//            var itemId = item.itemId
+            //            var itemId = item.itemId
             var tab = 0
             when (item.itemId) {
                 R.id.navigation_home -> {
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 navigation.menu.getItem(position).setChecked(true)
-                when(position){
+                when (position) {
                     0 -> title.setText("星途")
                     1 -> title.setText("每日一图")
                     2 -> title.setText("脉动地球")

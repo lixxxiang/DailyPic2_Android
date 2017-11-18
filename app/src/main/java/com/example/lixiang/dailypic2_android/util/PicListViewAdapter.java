@@ -111,8 +111,11 @@ public class PicListViewAdapter extends BaseAdapter {
                     pic2Holder.pic2Pic1.setImageURI(Uri.parse(content.get(position).getThumbnail1FilePath()));
                 if (content.get(position).getThumbnail2FilePath() != null)
                     pic2Holder.pic2Pic2.setImageURI(Uri.parse(content.get(position).getThumbnail2FilePath()));
-                if (content.get(position).getThumbnail3FilePath() != null)
+                if (content.get(position).getThumbnail3FilePath().length() == 0){
+                    pic2Holder.pic2Pic3.setVisibility(View.INVISIBLE);
+                }else{
                     pic2Holder.pic2Pic3.setImageURI(Uri.parse(content.get(position).getThumbnail3FilePath()));
+                }
                 break;
         }
         return convertView;

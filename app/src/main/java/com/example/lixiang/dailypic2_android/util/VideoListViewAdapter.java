@@ -72,7 +72,6 @@ public class VideoListViewAdapter extends BaseAdapter {
         if (content.get(position).getThumbnailFilePath() != null)
             videoHolder.videoPic.setImageURI(Uri.parse(content.get(position).getThumbnailFilePath()));
         if (content.get(position).getPlayCount() != null)
-            System.out.println(content.get(position).getPlayCount() + "次播放");
             videoHolder.playTimes.setText(content.get(position).getPlayCount() + "次播放");
         if (content.get(position).getVideoDuration() != null)
             videoHolder.duration.setText(content.get(position).getVideoDuration());

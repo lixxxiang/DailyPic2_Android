@@ -116,8 +116,11 @@ public class HomeListViewAdapter extends BaseAdapter {
                     pic2Holder.pic2Pic1.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));
                 if (content.get(position).getThumbnail2Path() != null)
                     pic2Holder.pic2Pic2.setImageURI(Uri.parse(content.get(position).getThumbnail2Path()));
-                if (content.get(position).getThumbnail3Path() != null)
+                if (content.get(position).getThumbnail3Path().length() == 0){
+                    pic2Holder.pic2Pic3.setVisibility(View.INVISIBLE);
+                }else{
                     pic2Holder.pic2Pic3.setImageURI(Uri.parse(content.get(position).getThumbnail3Path()));
+                }
                 break;
             case TYPE_VIDEO:
                 if (convertView == null) {
@@ -136,7 +139,6 @@ public class HomeListViewAdapter extends BaseAdapter {
                     videoHolder.videoName.setText(content.get(position).getContentName());
                 if (content.get(position).getThumbnail1Path() != null)
                     videoHolder.videoPic.setImageURI(Uri.parse(content.get(position).getThumbnail1Path()));if (content.get(position).getPlayCount() != null)
-                System.out.println(content.get(position).getPlayCount() + "次播放");
                 videoHolder.playTimes.setText(content.get(position).getPlayCount() + "次播放");
                 if (content.get(position).getDuration() != null)
                     videoHolder.duration.setText(content.get(position).getDuration());

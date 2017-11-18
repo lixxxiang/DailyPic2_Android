@@ -2,9 +2,12 @@ package com.example.lixiang.dailypic2_android.view.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +20,10 @@ import com.example.lixiang.dailypic2_android.model.entity.PlanetEarth
 import com.example.lixiang.dailypic2_android.model.entity.PlanetEarthDetail
 import com.example.lixiang.dailypic2_android.presenter.VideoContract
 import com.example.lixiang.dailypic2_android.presenter.VideoPresenter
+import com.example.lixiang.dailypic2_android.util.SwipeRefreshView
 import com.example.lixiang.dailypic2_android.util.VideoListViewAdapter
 import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
+import kotlinx.android.synthetic.main.fragment_pic.*
 import kotlinx.android.synthetic.main.fragment_video.*
 import javax.inject.Inject
 
@@ -30,25 +35,34 @@ import javax.inject.Inject
  * Use the [VideoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VideoFragment : Fragment(),VideoContract.View{
+class VideoFragment : Fragment(), VideoContract.View {
+
+
     override fun toVideoDetailPage(videoDetailContent: PlanetEarthDetail.DataBean?) {
         val intent = Intent(activity, VideoDetailActivity::class.java)
         intent.putExtra("VideoDetailContent", videoDetailContent)
         startActivity(intent)
     }
 
-    var data : MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
-    override fun loadVideoData(videoContent: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean>) {
+    var data: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean> = mutableListOf()
+    var adapter = VideoListViewAdapter(activity, data)
+    var maxVideoCount = 0
+    override fun loadVideoData(videoContent: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean>, count: Int) {
         println("Planet Earth content" + videoContent)
         data = videoContent
-        val adapter = VideoListViewAdapter(activity.applicationContext, videoContent)
+        maxVideoCount = count
+        adapter = VideoListViewAdapter(activity.applicationContext, videoContent)
         listview2.adapter = adapter
+    }
+
+    override fun loadMoreVideoData(content: MutableList<PlanetEarth.DataBean.SjMobilePlanetEarthDtoListBean>) {
+        adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
-
+    private var num_video = 1
     private var mListener: OnFragmentInteractionListener? = null
 
     @Inject lateinit var presenter: VideoPresenter
@@ -81,9 +95,32 @@ class VideoFragment : Fragment(),VideoContract.View{
 
         presenter.loadVideoData("10", "1")
 
-        listview2.onItemClickListener = AdapterView.OnItemClickListener{ parent, view, position, id ->
+        listview2.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             presenter.getPlanetEarthDetail(data.get(position).videoId)
         }
+
+        swipeRefreshLayout_video.setColorSchemeColors(Color.parseColor("#6299ff"))
+        swipeRefreshLayout_video.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            num_video = 0
+            presenter.loadVideoData("10", "1")
+            Handler().postDelayed({
+                swipeRefreshLayout_video.isRefreshing = false
+
+            }, 1200)
+        })
+
+
+        // 设置下拉加载更多
+        swipeRefreshLayout_video.setOnLoadMoreListener(object : SwipeRefreshView.OnLoadMoreListener {
+            override fun onLoadMore() {
+                num_video++
+                if (num_video < maxVideoCount) {
+                    println("num :" + num_video)
+                    presenter.loadMoreVideoData("10", num_video.toString())
+                    swipeRefreshLayout_video.setLoading(false)
+                }
+            }
+        })
     }
 
     override fun onDetach() {

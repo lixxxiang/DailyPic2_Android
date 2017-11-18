@@ -6,7 +6,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/pic_brief"
+        android:id="@+id/pic_brief2"
         android:layout_marginTop="17dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
@@ -17,9 +17,10 @@
         android:text="费萨拉巴德位于巴基斯坦东北部，总面积5,856平方公里。费萨拉巴德基斯坦东北部，总面积5,856平方公里费费巴德基斯巴德基斯哪坦" />
 
     <TextView
+        android:id="@+id/pic_date2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pic_brief"
+        android:layout_below="@+id/pic_brief2"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
         android:layout_marginTop="10dp"

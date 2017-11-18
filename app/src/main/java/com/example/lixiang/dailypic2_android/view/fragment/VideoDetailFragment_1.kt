@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.example.lixiang.dailypic2_android.R
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
 import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
+import kotlinx.android.synthetic.main.fragment_video_detail_fragment_1.*
 
 /**
  * A simple [Fragment] subclass.
@@ -41,6 +42,9 @@ class VideoDetailFragment_1 : Fragment() {
         val videoDetailActivity : VideoDetailActivity = activity as VideoDetailActivity
 
         println(">>" + videoDetailActivity.getData()!!.thumbnailFilePath)
+
+        video_brief.text = videoDetailActivity.getData()!!.videoName
+        video_date.text = videoDetailActivity.getData()!!.videoTime
 
     }
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

@@ -5,12 +5,17 @@
     tools:context="com.example.lixiang.dailypic2_android.view.fragment.VideoFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:id="@+id/listview2"
+    <com.example.lixiang.dailypic2_android.util.SwipeRefreshView
+        android:id="@+id/swipeRefreshLayout_video"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@drawable/list_divider"
-        android:dividerHeight="1dp">
-    </ListView>
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/listview2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="1dp"/>
+    </com.example.lixiang.dailypic2_android.util.SwipeRefreshView>
 
 </FrameLayout>

@@ -20,6 +20,8 @@
         android:layout_marginRight="17dp"
         android:layout_marginEnd="17dp"
         android:text="TextView"
+        android:textColor="#4a4a4a"
+        android:textSize="16dp"
         tools:text="费萨拉巴德位于巴基斯坦东北部，费萨拉巴德位于巴基斯坦东巴基斯坦东北部，费萨拉巴..." />
 
     <LinearLayout

@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.lixiang.dailypic2_android.R
+import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
+import kotlinx.android.synthetic.main.fragment_pic_detail_fragment_1.*
+import kotlinx.android.synthetic.main.fragment_pic_detail_fragment_2.*
 import kotlinx.android.synthetic.main.pic_detail_2.*
 
 /**
@@ -44,8 +47,9 @@ class PicDetailFragment_2 : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        var webSettings = webview.settings
-//        webSettings.javaScriptEnabled
+        val picDetailActivity : PicDetailActivity = activity as PicDetailActivity
+        pic_brief2.text = picDetailActivity.getData()!!.imageName
+        pic_date2.text = picDetailActivity.getData()!!.imageDate
 
     }
     // TODO: Rename method, update argument and hook method into UI event
