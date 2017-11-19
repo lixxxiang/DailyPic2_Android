@@ -128,11 +128,7 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface{
             }
         })
         toFragment = intent.getSerializableExtra("picDetailContent") as DailyPicDetail.DataBean
-        back.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                finish()
-            }
-        })
+        back.setOnClickListener { finish() }
 
         val delegateArea = Rect()
         back.getHitRect(delegateArea)

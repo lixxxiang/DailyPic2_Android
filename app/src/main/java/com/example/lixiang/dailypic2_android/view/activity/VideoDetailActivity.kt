@@ -3,10 +3,12 @@ package com.example.lixiang.dailypic2_android.view.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.TouchDelegate
 import android.view.View
 import com.androidkun.xtablayout.XTabLayout
 import com.example.lixiang.dailypic2_android.R
@@ -15,6 +17,7 @@ import com.example.lixiang.dailypic2_android.model.entity.PlanetEarthDetail
 import com.example.lixiang.dailypic2_android.util.VideoDetailAdapter
 import com.example.lixiang.dailypic2_android.view.fragment.VideoDetailFragment_1
 import com.example.lixiang.dailypic2_android.view.fragment.VideoDetailFragment_2
+import kotlinx.android.synthetic.main.activity_pic_detail.*
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import kotlinx.android.synthetic.main.video_detail_1.*
 import kotlinx.android.synthetic.main.video_detail_2.*
@@ -49,7 +52,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
 
     override fun setActivityResultCallback(p0: CordovaPlugin?) {
         if (activityResultCallback1 != null) {
-            activityResultCallback1!!.onActivityResult(activityResultRequestCode, Activity.RESULT_CANCELED, null);
+            activityResultCallback1!!.onActivityResult(activityResultRequestCode, Activity.RESULT_CANCELED, null)
         }
         activityResultCallback1 = p0
     }
@@ -98,7 +101,7 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
         setContentView(R.layout.activity_video_detail)
         video_detail_2.visibility = View.INVISIBLE
         adapter = VideoDetailAdapter(supportFragmentManager, titleList, fragmentList)
-        videoviewpager.setAdapter(adapter)
+        videoviewpager.adapter = adapter
         videoxTablayout.setupWithViewPager(videoviewpager)
         videoxTablayout.setTabsFromPagerAdapter(adapter)
         videoxTablayout!!.setOnTabSelectedListener(object : XTabLayout.OnTabSelectedListener {
@@ -121,12 +124,18 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
             }
         })
 
-        toFragment2 = getIntent().getSerializableExtra("VideoDetailContent") as PlanetEarthDetail.DataBean
-        videoback.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                finish()
-            }
-        })
+        toFragment2 = intent.getSerializableExtra("VideoDetailContent") as PlanetEarthDetail.DataBean
+        videoback.setOnClickListener { finish() }
+
+        val delegateArea = Rect()
+        videoback.getHitRect(delegateArea)
+        delegateArea.right += 500
+        delegateArea.bottom += 1000
+        val touchDelegate = TouchDelegate(delegateArea, videoback)
+        if (View::class.java.isInstance(videoback.parent))
+            (videoback.parent as View).touchDelegate = touchDelegate
+
+
         systemWebView = findViewById(R.id.webview2)
         val parser = ConfigXmlParser()
         parser.parse(this)
@@ -135,13 +144,13 @@ class VideoDetailActivity : AppCompatActivity(), CordovaInterface {
         webview2.loadUrl("file:///android_asset/www/index.html")
 
         if (toFragment2.videoName != null)
-            videodetailname.setText(toFragment2.videoName)
+            videodetailname.text = toFragment2.videoName
         if (toFragment2.thumbnailFilePath != null)
             videodetailpic.setImageURI(Uri.parse(toFragment2.thumbnailFilePath))
         if (toFragment2.playCount != null)
             detailplayTimes.text = toFragment2.playCount + "次播放"
         if (toFragment2.videoDuration != null)
-            detailduration.setText(toFragment2.videoDuration)
+            detailduration.text = toFragment2.videoDuration
 
         videodetailpic.setOnClickListener {
             var intent = Intent(this, PlayVideoActivity::class.java)

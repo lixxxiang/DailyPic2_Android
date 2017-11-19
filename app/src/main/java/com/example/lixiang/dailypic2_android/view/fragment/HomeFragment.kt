@@ -57,12 +57,9 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun toPicDetailPage(picDetailContent: DailyPicDetail.DataBean?) {
 
-        val intent = Intent(activity, IntroActivity::class.java)
+        val intent = Intent(activity, PicDetailActivity::class.java)
+        intent.putExtra("picDetailContent", picDetailContent)
         startActivity(intent)
-
-//        val intent = Intent(activity, PicDetailActivity::class.java)
-//        intent.putExtra("picDetailContent", picDetailContent)
-//        startActivity(intent)
     }
 
     var data: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
