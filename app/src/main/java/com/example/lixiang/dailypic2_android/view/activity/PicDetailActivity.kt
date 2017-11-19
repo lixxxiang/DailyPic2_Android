@@ -3,11 +3,13 @@ package com.example.lixiang.dailypic2_android.view.activity
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.KeyEvent
+import android.view.TouchDelegate
 import android.view.View
 import com.androidkun.xtablayout.XTabLayout
 import com.example.lixiang.dailypic2_android.R
@@ -53,7 +55,7 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface{
 
     override fun setActivityResultCallback(p0: CordovaPlugin?) {
         if (activityResultCallback1 != null) {
-            activityResultCallback1!!.onActivityResult(activityResultRequestCode, Activity.RESULT_CANCELED, null);
+            activityResultCallback1!!.onActivityResult(activityResultRequestCode, Activity.RESULT_CANCELED, null)
         }
         activityResultCallback1 = p0
     }
@@ -98,16 +100,12 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface{
 
     var adapter: PicDetailAdapter? = null
 
-    //    override fun onStop() {
-//        unregisterReceiver(this)
-//        super.onStop()
-//    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pic_detail)
         pic_detail_2.visibility = View.INVISIBLE
         adapter = PicDetailAdapter(supportFragmentManager, titleList, fragmentList)
-        viewpager.setAdapter(adapter)
+        viewpager.adapter = adapter
         xTablayout.setupWithViewPager(viewpager)
         xTablayout.setTabsFromPagerAdapter(adapter)
         xTablayout!!.setOnTabSelectedListener(object : XTabLayout.OnTabSelectedListener {
@@ -129,12 +127,22 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface{
             override fun onTabReselected(tab: XTabLayout.Tab) {
             }
         })
-        toFragment = getIntent().getSerializableExtra("picDetailContent") as DailyPicDetail.DataBean
+        toFragment = intent.getSerializableExtra("picDetailContent") as DailyPicDetail.DataBean
         back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 finish()
             }
         })
+
+        val delegateArea = Rect()
+        back.getHitRect(delegateArea)
+        delegateArea.right += 500
+        delegateArea.bottom += 1000
+        val touchDelegate = TouchDelegate(delegateArea, back)
+        if (View::class.java.isInstance(back.parent))
+            (back.parent as View).touchDelegate = touchDelegate
+
+
         systemWebView = findViewById(R.id.webview1)
         val parser = ConfigXmlParser()
         parser.parse(this)
@@ -143,11 +151,11 @@ class PicDetailActivity : AppCompatActivity(), CordovaInterface{
         webview1.loadUrl("file:///android_asset/www/index.html")
 
         if (toFragment.richText1 != null)
-            description_1.setText(toFragment.richText1)
+            description_1.text = toFragment.richText1
         if (toFragment.richText2 != null)
-            description_2.setText(toFragment.richText2)
+            description_2.text = toFragment.richText2
         if (toFragment.richText3 != null)
-            description_3.setText(toFragment.richText3)
+            description_3.text = toFragment.richText3
         if (toFragment.image1FilePath != null)
             picture_1.setImageURI(Uri.parse(toFragment.image1FilePath))
         if (toFragment.image2FilePath.isNotEmpty())
