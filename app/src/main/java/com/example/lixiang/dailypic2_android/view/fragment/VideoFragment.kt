@@ -20,6 +20,7 @@ import com.example.lixiang.dailypic2_android.model.entity.PlanetEarth
 import com.example.lixiang.dailypic2_android.model.entity.PlanetEarthDetail
 import com.example.lixiang.dailypic2_android.presenter.VideoContract
 import com.example.lixiang.dailypic2_android.presenter.VideoPresenter
+import com.example.lixiang.dailypic2_android.util.NetWorkUtils
 import com.example.lixiang.dailypic2_android.util.SwipeRefreshView
 import com.example.lixiang.dailypic2_android.util.VideoListViewAdapter
 import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
@@ -121,6 +122,10 @@ class VideoFragment : Fragment(), VideoContract.View {
                 }
             }
         })
+
+        if(!NetWorkUtils.isNetworkConnected(activity)){
+            no_network3.visibility = View.VISIBLE
+        }
     }
 
     override fun onDetach() {

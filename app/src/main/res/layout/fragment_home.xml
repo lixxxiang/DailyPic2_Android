@@ -23,12 +23,6 @@
 
     </com.example.lixiang.dailypic2_android.util.SwipeRefreshView>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_below="@+id/swipeRefreshLayout"
-        android:background="@color/colorAccent" />
-
     <FrameLayout
         android:id="@+id/no_network"
         android:visibility="invisible"
@@ -43,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:textSize="16dp"
                 android:text="这里空空的" />
         </RelativeLayout>
     </FrameLayout>

@@ -21,6 +21,7 @@ import com.example.lixiang.dailypic2_android.model.entity.DailyPicDetail
 import com.example.lixiang.dailypic2_android.presenter.PicContract
 import com.example.lixiang.dailypic2_android.presenter.PicPresenter
 import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
+import com.example.lixiang.dailypic2_android.util.NetWorkUtils
 import com.example.lixiang.dailypic2_android.util.PicListViewAdapter
 import com.example.lixiang.dailypic2_android.util.SwipeRefreshView
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
@@ -116,6 +117,10 @@ class PicFragment : Fragment(), PicContract.View {
                 }
             }
         })
+
+        if(!NetWorkUtils.isNetworkConnected(activity)){
+            no_network2.visibility = View.VISIBLE
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

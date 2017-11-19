@@ -26,6 +26,7 @@ import com.example.lixiang.dailypic2_android.util.GlideImageLoader
 import com.example.lixiang.dailypic2_android.util.HomeListViewAdapter
 import com.example.lixiang.dailypic2_android.util.NetWorkUtils
 import com.example.lixiang.dailypic2_android.util.SwipeRefreshView
+import com.example.lixiang.dailypic2_android.view.activity.IntroActivity
 import com.example.lixiang.dailypic2_android.view.activity.PicDetailActivity
 import com.example.lixiang.dailypic2_android.view.activity.VideoDetailActivity
 import com.youth.banner.Banner
@@ -50,12 +51,18 @@ class HomeFragment : Fragment(), HomeContract.View {
         val intent = Intent(activity, VideoDetailActivity::class.java)
         intent.putExtra("VideoDetailContent", videoDetailContent)
         startActivity(intent)
+
+
     }
 
     override fun toPicDetailPage(picDetailContent: DailyPicDetail.DataBean?) {
-        val intent = Intent(activity, PicDetailActivity::class.java)
-        intent.putExtra("picDetailContent", picDetailContent)
+
+        val intent = Intent(activity, IntroActivity::class.java)
         startActivity(intent)
+
+//        val intent = Intent(activity, PicDetailActivity::class.java)
+//        intent.putExtra("picDetailContent", picDetailContent)
+//        startActivity(intent)
     }
 
     var data: MutableList<homePage.DataBean.MixedContentListBean> = mutableListOf()
